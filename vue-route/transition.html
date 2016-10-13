@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue--动画</title>
+	<style>
+		/*进场动画.expend-enter-->.expend-transition*/
+		/*离场动画.expend-transition-->.expend-leave**/
+		.box{
+			/*overflow:hidden;*/
+			background: #ccc;
+		}
+
+		.expend-transition{
+			transition : all 1s ease;
+			height:100px;
+			line-height:100px;
+			opacity:1;
+			overflow:hidden;
+		}
+		.expend-enter{
+		/*完全渲染的状态*/	
+			height:0px;
+			opacity:0;
+		}
+		.expend-leave{
+			height:0px;
+			opacity:0;
+		}
+
+		.expend2-transition{
+			transition: all 1s ease;
+			height:100px;
+			line-height:100px;
+			opacity:1;
+			transform : rotate(0deg);
+		}
+		.expend2-enter{
+			height:0;
+			opacity:0;
+			transform : rotate(360deg);
+		}
+		.expend2-leave{
+			height:0;
+			opacity:0;
+			transform : rotate(360deg);
+		}
+
+		.donghua-transition{
+			transition : all 3s ease;
+			height:100px;
+			line-height:100px;
+			background: #ccc;
+			opacity:1;
+		}
+		.donghua-enter{
+			height:0;
+			opacity:0;
+		}
+		.donghua-leave{
+			height:0;
+			opacity:0;
+		}
+		li{
+			margin:10px 0;
+		}
+		
+	</style>
+</head>
+<body>
+	<div id="demo">
+		<p style="color:red;">v-if</p>
+		<button @click="fi=!fi">click me</button>
+		<div v-if='fi' transition='expend' class="box">hello world</div>
+		<p style="color:red;">v-show</p>
+		<select name="" id="" v-model='tran'>
+			<option value="expend">expend</option>
+			<option value="expend2">expend2</option>
+		</select>
+		<button @click="fs=!fs">click me</button>
+		<div v-show='fs' :transition='tran' class="box">hello world</div>
+		<p style="color:red;">v-for</p>
+		<input type="text" v-model="params">
+		<ul>
+			<li v-for="arr in arrs|filterBy params" transition='donghua'>{{arr}}</li>
+		</ul>
+		
+	</div>
+	
+	<!-- 
+		v-if       ng-if
+		v-show     ng-show
+		v-for      ng-repeat
+	-->
+
+
+	<script src="lib/vue.js"></script>
+	<script src="lib/vue-resource.min.js"></script>
+	<script src="lib/vue-router.js"></script>
+	<script>
+		new Vue({
+			el : '#demo',
+			data : {
+				name : 'lpchen',
+				fi : true,
+				fs : true,
+				tran : 'expend',
+				arrs : ['abc','bcd','cde','def','egh'],
+				params : '',
+			},
+			methods : {
+
+			},
+		});
+	</script>
+</body>
+</html>

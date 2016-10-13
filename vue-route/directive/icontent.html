@@ -1,0 +1,9 @@
+<div ng-repeat="data in datas" class="icontent" ng-click="jumpTo(data.url)">
+	<h3>{{data.title}}</h3>
+	<p><span>{{data.realtype}}</span><span>{{data.date}}</span><span>{{data.author_name}}</span><span>{{data.type}}</span></p>
+	<ul>
+		<li><img ng-src="{{data.thumbnail_pic_s}}" alt=""></li>
+	</ul>
+
+</div>
+<p style="text-align: center;font-size:0.20rem;color:red;font-weight: bold;margin:0.2rem;" ng-click="more()" ng-show="loading">更多内容</p>

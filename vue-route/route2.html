@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue--route</title>
+	<style>
+		.v-link-active{color:red;}
+	</style>
+</head>
+<body>
+	<div id="demo">
+		
+	</div>
+	
+	
+	<template id="tpl">
+		<a v-link="{path:'/index'}">index</a>
+		<a v-link="{name:'homel',path:'/home',params:{id:1,name:'abc'}}">home</a>
+		<a v-link="{path:'/index/a'}">a</a>
+		<a v-link="{path:'/index/b'}">b</a>
+		<router-view></router-view>
+	</template>
+
+
+	<script src="lib/vue.js"></script>
+	<script src="lib/vue-resource.min.js"></script>
+	<script src="lib/vue-router.js"></script>
+	<script>
+		
+		var index = Vue.extend({
+			template : '<div>index路由</div><router-view></router-view>',
+		});
+
+		var home = Vue.extend({
+			template : '<div>home路由</div>',
+			route : {    //获取url上传递的参数
+				data : function(transition){
+					console.log(transition);
+					this.$http.get('php/test.php',{
+						params : transition.to.params,
+					}).then(function(data){
+						console.log(data);
+						console.log(JSON.parse(data.data));
+					});
+				}
+			},
+		});
+
+		var a = Vue.extend({
+			template : '<p>a的组件</p>',
+		});
+
+		var b = Vue.extend({
+			template : '<p>b的组件</p>',
+		});
+
+		var App = Vue.extend({
+			//template : '<p>{{name}}</p><router-view></router-view>',
+			//replace : false,
+			template : '#tpl',
+			replace : false,
+		});
+
+		var router = new VueRouter();    
+		router.map({
+			'/index' : {
+				component : index,  //切换路由就是切换component组件
+				subRoutes : {
+					'/a' : {
+						component : a,
+					},
+					'/b' : {
+						component : b,
+					},
+				},
+			},
+			'/home/:id/:name' : {
+				name : 'homel',
+				component : home,  //切换路由就是切换component组件
+			}
+		});
+		router.redirect({
+			'*':'/index',   //默认的路由
+		});
+
+		router.start(App,'#demo');
+
+	</script>
+</body>
+</html>

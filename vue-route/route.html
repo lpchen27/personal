@@ -1,0 +1,54 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue--route</title>
+	<style>
+	
+	</style>
+</head>
+<body>
+	<div id="demo">
+		<a href="#!/index">index</a>
+		<a href="#!/home">home</a>
+		<router-view></router-view>
+	</div>
+
+
+	<script src="lib/vue.js"></script>
+	<script src="lib/vue-resource.min.js"></script>
+	<script src="lib/vue-router.js"></script>
+	<script>
+		var index = Vue.extend({
+			template : '<div>我是第一个路由index</div>',
+		}); 
+		var home = Vue.extend({
+			template : '<div>我是第二个路由home</div>',
+		}); 
+		var qq = Vue.extend({
+
+		});
+		new Vue({
+			el : '#demo',
+			data : {
+				name : 'lpchen',
+			},
+			methods : {
+
+			},
+		});
+		var router = new VueRouter();
+		router.map({
+			'/index' : {
+				component : index,
+			},
+			'/home' : {
+				component : home,
+			},
+		});
+		router.start(qq, '#demo');
+	</script>
+</body>
+</html>

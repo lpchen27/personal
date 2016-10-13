@@ -1,0 +1,76 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue--components</title>
+	<style>
+	
+	</style>
+</head>
+<body>
+	<div id="demo">
+		<father id='father' :a='name'></father>
+		<p>{{name}}</p>
+	</div>
+
+
+	<script src="lib/vue.js"></script>
+	<script src="lib/vue-resource.min.js"></script>
+	<script>
+		var temchild = Vue.extend({
+			template : '<div>子组件</div>',
+			props : ['a'],
+			ready : function(){
+				console.log('child---' + this.a); //可取到rem 中的name-->father
+			}
+		});
+		var tem = Vue.extend({
+			template : '<div>第一个组件<child :a="name"></child></div>',
+			components : {
+				child : temchild,
+			},
+			props : ['a'],
+			data : function(){
+				return {
+					name : 'father',
+				};
+			},
+			ready : function(){
+				//console.log(this.$el);
+				console.log('father---'+this.a);  //可取到demo中的name-->demo 
+				
+			},
+			methods : {
+
+			},
+		});
+		
+		var demo = new Vue({
+			el : '#demo',
+			data : {
+				name : 'dmeo',
+			},
+			components : {
+				father : tem,
+			},
+			ready : function(){
+				this.$http.get('php/test.php',{
+					params : {
+						a : 1,
+						b : 2,
+					},
+				}).then(function(data){
+					//成功的回调函数
+					console.log(JSON.parse(data.data));
+				},function(error){
+					//失败的毁掉函数
+					console.log(error);
+				});
+			}
+		});
+		
+	</script>
+</body>
+</html>
